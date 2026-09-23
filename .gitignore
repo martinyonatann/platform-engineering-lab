@@ -2,3 +2,21 @@
 *.tfstate
 *.tfstate.*
 *.tfvars
+
+# Helm
+*.tgz
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+
+# Kubernetes / local environment
+*.secret.yaml
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
