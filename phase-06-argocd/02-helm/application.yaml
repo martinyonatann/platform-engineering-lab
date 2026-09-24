@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-helm
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/martinyonatann/platform-engineering-lab.git
+    targetRevision: feat/argocd
+    path: phase-05-helm/04-environments/nginx
+
+    helm:
+      valueFiles:
+        - values.yaml
+        - values-dev.yaml
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: nginx-helm
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+    syncOptions:
+        - CreateNamespace=true
