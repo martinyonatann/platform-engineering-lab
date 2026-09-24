@@ -1,0 +1,8 @@
+replicaCount: 3
+environment: production
+
+resources:
+  requests:
+    cpu: 500m
+  limits:
+    cpu: 1
