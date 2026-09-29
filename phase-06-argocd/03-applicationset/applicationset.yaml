@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: nginx-environments
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - env: dev
+          - env: prod
+
+  template:
+    metadata:
+      name: 'nginx-{{env}}'
+    spec:
+      project: default
+
+      source:
+        repoURL: https://github.com/martinyonatann/platform-engineering-lab.git
+        targetRevision: master
+        path: phase-05-helm/04-environments/nginx
+
+        helm:
+          valueFiles:
+            - values.yaml
+            - values-{{env}}.yaml
+
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: nginx-{{env}}
+
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+
+        syncOptions:
+          - CreateNamespace=true

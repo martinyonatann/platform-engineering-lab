@@ -14,6 +14,10 @@ phase-06-argocd/
 ├── 02-helm/
 │   └── application.yaml
 │
+├── 03-applicationset/
+│   ├── applicationset.yaml
+│   └── README.md
+│
 └── README.md
 ```
 
@@ -63,4 +67,6 @@ Expected:
 ```text
 gitops-demo   Synced   Healthy
 nginx-helm    Synced   Healthy
+nginx-dev     Synced   Healthy
+nginx-prod    Synced   Healthy
 ```
