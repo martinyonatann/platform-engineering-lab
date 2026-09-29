@@ -1,6 +1,11 @@
 replicaCount: 1
 environment: development
 
+image:
+  repository: ghcr.io/martinyonatann/platform-engineering-lab/nginx
+  tag: sha-6b6e611
+  pullPolicy: IfNotPresent
+
 resources:
   requests:
     cpu: 100m
