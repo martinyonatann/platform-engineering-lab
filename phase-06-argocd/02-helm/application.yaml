@@ -8,7 +8,7 @@ spec:
 
   source:
     repoURL: https://github.com/martinyonatann/platform-engineering-lab.git
-    targetRevision: feat/argocd
+    targetRevision: master
     path: phase-05-helm/04-environments/nginx
 
     helm:
@@ -26,4 +26,4 @@ spec:
       selfHeal: true
 
     syncOptions:
-        - CreateNamespace=true
+      - CreateNamespace=true

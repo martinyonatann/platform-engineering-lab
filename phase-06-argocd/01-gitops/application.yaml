@@ -8,7 +8,7 @@ spec:
 
   source:
     repoURL: https://github.com/martinyonatann/platform-engineering-lab.git
-    targetRevision: feat/argocd
+    targetRevision: master
     path: phase-06-argocd/01-gitops
 
   destination:
