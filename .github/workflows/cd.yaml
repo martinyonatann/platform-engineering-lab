@@ -1,0 +1,38 @@
+name: cd
+
+on:
+  workflow_run:
+    workflows: [ci]
+    types: [completed]
+    branches: [master]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cd-master
+
+jobs:
+  bump:
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+      - id: sha
+        run: echo "short=$(echo '${{ github.event.workflow_run.head_sha }}' | cut -c1-7)" >> "$GITHUB_OUTPUT"
+      - env:
+          TAG: sha-${{ steps.sha.outputs.short }}
+        run: |
+          FILE=phase-05-helm/04-environments/nginx/values-dev.yaml
+          yq -i '.image.repository = "ghcr.io/martinyonatann/platform-engineering-lab/nginx"' "$FILE"
+          yq -i '.image.pullPolicy = "IfNotPresent"' "$FILE"
+          yq -i '.image.tag = strenv(TAG)' "$FILE"
+          git --no-pager diff
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add phase-05-helm/04-environments/nginx/values-dev.yaml
+          git commit -m "chore: deploy nginx sha-${{ steps.sha.outputs.short }} to dev" || echo "no change"
+          git push
